@@ -94,7 +94,7 @@ public class PlaneManagement{
         }
     }
 
-    static void buy_Seat() {
+    static void buy_Seat() throws SeatManagementException{
         Scanner scanner = new Scanner(System.in);
 
         // Get row letter and seat number from user
@@ -105,8 +105,8 @@ public class PlaneManagement{
 
         // Validate user input
         if (!isValidRow(row) || !isValidSeatNumber(row, seatNumber) || !isSeatAvailable(row, seatNumber)) {
-            System.out.println("Invalid seat selection. Please try again.");
-            return;
+            throw new SeatManagementException("Invalid seat selection or seat not available.");
+
         }
 
         // Convert row letter to index
@@ -146,7 +146,7 @@ public class PlaneManagement{
         System.out.println(prompt);
         String input = scanner.nextLine();
 
-        if (input.isBlank()) {
+        if (input.trim().isEmpty()) {
             System.out.println("Please enter an input");
             return getInput(scanner, prompt);
         } else {
@@ -154,7 +154,7 @@ public class PlaneManagement{
         }
     }
 
-    static void cancel_Seat() {
+    static void cancel_Seat() throws SeatManagementException{
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter row letter (A, B, C, or D): ");
@@ -163,8 +163,8 @@ public class PlaneManagement{
         int seatNumber = scanner.nextInt();
 
         if (!isValidRow(row) || !isValidSeatNumber(row, seatNumber) || isSeatAvailable(row, seatNumber)) {
-            System.out.println("Invalid seat selection or seat already available. Please try again.");
-            return;
+            throw new SeatManagementException("Invalid seat selection or seat already available.");
+
         }
 
         int rowIndex = row.charAt(0) - 'A';
